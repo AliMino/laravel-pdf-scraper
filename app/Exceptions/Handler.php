@@ -2,12 +2,18 @@
 
 namespace App\Exceptions;
 
+use App\Exceptions\API\InvalidInputsException;
+use App\Exceptions\Attributes\ExceptionMapper;
 
+use App\Exceptions\Traits\MapToAPIException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Validation\ValidationException;
 
 use Throwable;
 
 class Handler extends ExceptionHandler {
+
+    use MapToAPIException;
 
     /**
      * A list of the exception types that are not reported.
@@ -39,5 +45,14 @@ class Handler extends ExceptionHandler {
         $this->reportable(function (Throwable $e) {
             //
         });
+    }
+
+    #[ExceptionMapper]
+    private function mapValidationException(ValidationException $exception): InvalidInputsException {
+
+        return new InvalidInputsException(
+
+            array_values($exception->validator->errors()->toArray())[0][0]
+        );
     }
 }

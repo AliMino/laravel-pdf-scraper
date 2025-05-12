@@ -21,11 +21,13 @@ composer update
 vendor/bin/sail php artisan migrate
 ```
 
-## Dive Deeper
-
-### Appendix
+## Appendix
 
 - [A: List of the used libraries](appendix/libraries.md).
+
+## See Also
+
+- [Application's internals](internals/index.md).
 
 <span align="center">
 
