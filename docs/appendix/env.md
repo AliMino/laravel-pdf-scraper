@@ -1,0 +1,31 @@
+<span align="center">
+
+<h1 id="top">Laravel PDF Scraper</h1>
+
+**Save *(Websites)* as PDF**
+
+<h2>Appendix B: List of additional environment variables</h2>
+
+</span>
+
+### Introduction
+
+This section lists all additional environment variables that aren't shipped in a new Laravel application.
+All additional environment variables are listed at the bottom of the *.env.example* file and are set to convenient values.
+
+### List of Additional Environment Variables
+
+|                 Name |                                                            Description                                                            | Default Value |
+| -------------------: | :-------------------------------------------------------------------------------------------------------------------------------: | :------------ |
+| DB_REPOSITORY_DRIVER | The name of the database repository driver to be used</br>DB repository drivers are defined in the *config/repositories.php* file | `eloquent`    |
+
+<span align="center">
+
+<hr width="70%">
+
+[Top](#top)
+&emsp; | &emsp;
+[Home](../README.md)
+
+</span>
+
