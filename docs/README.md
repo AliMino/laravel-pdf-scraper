@@ -21,9 +21,18 @@ composer update
 vendor/bin/sail php artisan migrate
 ```
 
+***
+
+## Application's Internals
+
+- [Database repositories](internals/db-repositories.md).
+
+***
+
 ## Appendix
 
 - [A: List of the used libraries](appendix/libraries.md).
+- [B: List of additional environment variables](appendix/env.md)
 
 ## See Also
 
@@ -34,6 +43,5 @@ vendor/bin/sail php artisan migrate
 <hr width="70%">
 
 [Top](#top)
-&emsp; | &emsp;
 
 </span>

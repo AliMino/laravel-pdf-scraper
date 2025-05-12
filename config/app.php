@@ -174,6 +174,9 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        
+        // Registers the concrete repositories defined by the config/repositories.php file
+        App\Providers\RepositoryServiceProvider::class,
 
     ],
 
