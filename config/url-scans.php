@@ -6,6 +6,11 @@ return [
     
     'storageDir' => 'app/pdfs',
 
+    'web' => [
+
+        'recordsPerPage' => 10
+    ],
+
     'api' => [
 
         'recordsPerPage' => 10

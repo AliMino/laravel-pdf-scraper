@@ -48,7 +48,7 @@ final class APIUrlScansController extends Controller {
     public final function downloadUrlScan(URLScanRetrievalRequest $request, int $urlScanId): BinaryFileResponse {
 
         return response()->download(
-            $this->urlScans->getUrlScanFilename($urlScanId, userId: 2),
+            $this->urlScans->getUrlScanFilename($urlScanId, userId: $request->user()->id),
             uniqid() . '.pdf'
         );
     }
