@@ -12,9 +12,14 @@ final class EloquentUsersRepository implements IUsersRepository {
                    ->first();
     }
 
-    public final function createUser(string $name, string $email, string $password): User {
+    public final function createUser(string $name, string $email, string $password, int $userRoleId): User {
 
-        $user = new User(compact('name', 'email', 'password'));
+        $user = new User([
+            'name'          => $name,
+            'email'         => $email,
+            'password'      => $password,
+            'user_role_id'  => $userRoleId,
+        ]);
 
         $user->save();
 

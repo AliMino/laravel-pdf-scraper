@@ -19,6 +19,8 @@ When running the project for the first time, you will need to run the following 
 composer update
 
 vendor/bin/sail php artisan migrate
+vendor/bin/sail php artisan db:seed
+
 vendor/bin/sail php artisan jwt:secret
 ```
 

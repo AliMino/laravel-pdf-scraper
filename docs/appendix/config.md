@@ -14,9 +14,10 @@ This section lists all additional configuration file that aren't shipped in a ne
 
 ### List of Additional Configuration Files
 
-|                                                     Path |          Description           | Used In/By                                                                                         |
-| -------------------------------------------------------: | :----------------------------: | :------------------------------------------------------------------------------------------------- |
-| [config/repositories.php](../../config/repositories.php) | Binds concrete db repositories | [`App\Providers\RepositoryServiceProvider`](../../app/Providers/RepositoryServiceProvider.php#L16) |
+|                                                     Path |                   Description                   | Used In/By                                                                                         |
+| -------------------------------------------------------: | :---------------------------------------------: | :------------------------------------------------------------------------------------------------- |
+| [config/repositories.php](../../config/repositories.php) |         Binds concrete db repositories          | [`App\Providers\RepositoryServiceProvider`](../../app/Providers/RepositoryServiceProvider.php#L16) |
+|       [config/app-admin.php](../../config/app-admin.php) | Contains admin name and credentials for seeding | [`Database\Seeders\AdminUserSeeder`](../../database/seeders/AdminUserSeeder.php#L21)               |
 
 <span align="center">
 

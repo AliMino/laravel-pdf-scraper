@@ -10,6 +10,9 @@ use Laravel\Sanctum\HasApiTokens;
 
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
+/**
+ * @property-read UserRole $userRole
+ */
 class User extends Authenticatable implements JWTSubject
 {
     use HasApiTokens, HasFactory, Notifiable;
@@ -23,6 +26,7 @@ class User extends Authenticatable implements JWTSubject
         'name',
         'email',
         'password',
+        'user_role_id'
     ];
 
     /**
@@ -52,5 +56,10 @@ class User extends Authenticatable implements JWTSubject
     public function getJWTCustomClaims() {
 
         return [];
+    }
+
+    public final function userRole() {
+
+        return $this->belongsTo(UserRole::class, 'user_role_id', 'id');
     }
 }

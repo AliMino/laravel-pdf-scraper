@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\User;
+use App\Enum\UserRole;
 use App\Repositories\User\IUsersRepository;
 
 use App\Exceptions\API\EntityNotFoundException;
@@ -14,19 +15,27 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 
 final class UsersService {
 
-    public final function __construct(private IUsersRepository $db) {}
+    public final function __construct(
+        
+        private IUsersRepository $db,
+        private UserRolesService $userRoles
+    ) {}
 
     /**
      * @throws EntityAlreadyExistsException If the specified email already in se by other user.
      */
-    public final function signup(string $name, string $email, string $plainPassword): User {
+    public final function signup(string $name, string $email, string $plainPassword, int|UserRole $userRole = UserRole::User): User {
+
+        // Check if the user role exists
+        $userRoleId = is_int($userRole) ? $userRole : $userRole->value;
+        $this->userRoles->getUserRoleById($userRoleId);
 
         if (!is_null($this->getUserByEmail($email, throwIfNotFound: false))) {
 
             throw new EntityAlreadyExistsException('User', 'email');
         }
 
-        return $this->db->createUser($name, $email, Hash::make($plainPassword));
+        return $this->db->createUser($name, $email, Hash::make($plainPassword), $userRoleId);
     }
 
     /**

@@ -15,9 +15,10 @@ Analouge to the *docker-compose.yml* and *.env*, the *docker-compose.test.yml* a
 Prepare the testing database by running the following command:
 
 ```shell
-vendor/bin/sail php artisan migrate --env=testing
 vendor/bin/sail php artisan jwt:secret --env=testing
 ```
+
+There is no need to run the migrations and seeders while testing, as they are already executed before every test.
 
 ### Running the Tests
 

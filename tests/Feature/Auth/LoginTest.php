@@ -2,9 +2,12 @@
 
 namespace Tests\Feature\Auth;
 
+use Database\Seeders\DatabaseSeeder;
+
 use App\Services\UsersService;
 use App\Exceptions\API\InvalidCredentialsException;
 
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -15,6 +18,16 @@ class LoginTest extends TestCase {
 
     use WithFaker;
     use RefreshDatabase;
+    use DatabaseMigrations;
+
+    protected string $seeder = DatabaseSeeder::class;
+
+    public function setUp(): void {
+
+        parent::setUp();
+
+        $this->runDatabaseMigrations();
+    }
 
     public function test_existing_user_can_generate_valid_access_tokens() {
 

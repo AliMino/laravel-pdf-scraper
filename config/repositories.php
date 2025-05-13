@@ -28,7 +28,8 @@ return [
 
             // Define repositories bindings as: interface => concrete
             
-            User\IUsersRepository::class => User\EloquentUsersRepository::class,
+            User\IUsersRepository::class         => User\EloquentUsersRepository::class,
+            UserRole\IUserRolesRepository::class => UserRole\EloquentUserRolesRepository::class,
         ]
     ]
 ];
