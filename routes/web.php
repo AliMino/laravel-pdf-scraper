@@ -19,3 +19,10 @@ Route::group([
     'controller'    => AuthenticationController::class,
 
 ], __DIR__ . '/web/auth.php');
+
+Route::group([
+        
+    'prefix'        => 'url-scans',
+    'controller'    => UrlScansController::class,
+
+], __DIR__ . '/web/url-scans.php');
