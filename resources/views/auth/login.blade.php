@@ -40,19 +40,22 @@
     <div class="container">
         <div class="login form">
             <header>Login</header>
-            <form>
+            @error('invalidCredentials')
+                <pre class="text-danger text-center fs-6 fst-italic fw-semibold">{{ $message }}</pre>
+            @enderror
+            <form action="{{ route('user-login-form-submission') }}" method="POST">
                 @csrf
                 
                 @error('email')
                     <div class="text-danger fs-6 fst-italic fw-semibold">{{ $message }}</div>
                 @enderror
                 <input type="email" name="email" placeholder="Enter your email" value="{{ old('email') }}">
-
+                
                 @error('password')
                     <div class="text-danger fs-6 fst-italic fw-semibold">{{ $message }}</div>
                 @enderror
                 <input type="password" name="password" placeholder="Enter your password">
-
+                
                 <input type="submit" class="button" value="Login">
             </form>
             <div class="signup">

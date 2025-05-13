@@ -4,13 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Services\UsersService;
 
-use Illuminate\Http\Request;
-
+use Auth;
 use Validator;
+use Illuminate\Http\Request;
 
 final class AuthenticationController extends Controller {
 
     public final function showRegistrationForm() {
+
+        if (!is_null(auth()->user())) {
+
+            return redirect(route('home'));
+        }
 
         return view('auth.registration');
     }
@@ -43,6 +48,42 @@ final class AuthenticationController extends Controller {
 
     public final function showLoginForm() {
 
+        if (!is_null(auth()->user())) {
+
+            return redirect(route('home'));
+        }
+
         return view('auth.login');
+    }
+
+    public final function submitLoginForm(Request $request) {
+
+        $validationErrors = Validator::make($request->all(), [
+            'email'    => 'required|string|email|max:255',
+            'password' => 'required|string',
+        ])->errors();
+
+        if ($validationErrors->isNotEmpty()) {
+
+            return redirect(route('user-login-form'))
+                ->withInput($request->input())
+                ->withErrors($validationErrors);
+        }
+
+        if (Auth::attempt($request->only('email', 'password'))) {
+
+            return redirect(route('home'));
+        }
+
+        return redirect(route('user-login-form'))
+            ->withErrors([ 'invalidCredentials' => 'Invalid credentials provided.' ])
+            ->withInput([ 'email' => $request->input('email') ]);
+    }
+
+    public final function logout() {
+
+        Auth::logout();
+
+        return redirect(route('user-login-form'));
     }
 }
