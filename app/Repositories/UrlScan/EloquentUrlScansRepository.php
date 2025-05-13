@@ -3,6 +3,7 @@
 namespace App\Repositories\UrlScan;
 
 use App\Models\UrlScan;
+use App\Enum\UrlScanStatus;
 
 use ArrayAccess;
 use Countable;
@@ -99,5 +100,24 @@ final class EloquentUrlScansRepository implements IUrlScansRepository {
         }
 
         return is_null($recordsPerPage) ? $query->get() : $query->paginate($recordsPerPage);
+    }
+
+    public final function getUnnotifiedUrlScans(?int $limit = null): ArrayAccess&Countable&IteratorAggregate&JsonSerializable {
+
+        $query = UrlScan::whereNull('notified_at')
+                        ->where('url_scan_status_id', UrlScanStatus::Processed->value);
+     
+        if (!is_null($limit)) {
+            
+            $query->limit($limit);
+        }
+
+        return $query->get();
+    }
+
+    public final function updateNotificationDate(int $id, string $notificationDate): bool {
+
+        return 0 < UrlScan::where('id', $id)
+                          ->update(['notified_at' => $notificationDate]);
     }
 }

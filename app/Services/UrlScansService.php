@@ -117,8 +117,6 @@ final class UrlScansService {
 
                 $this->db->updateUrlScanStatus($urlScan->id, UrlScanStatus::Processed->value);
 
-                //TODO: Notify the user about the URL scan completion
-
             } catch (Throwable $_) {
 
                 $this->db->updateUrlScanStatus($urlScan->id, UrlScanStatus::Failed->value);
@@ -153,5 +151,18 @@ final class UrlScansService {
         $storageDir = storage_path(config('url-scans.storageDir'));
 
         return $storageDir . DIRECTORY_SEPARATOR . $urlScan->filename;
+    }
+
+    /**
+     * @return array<UrlScan>
+     */
+    public final function getUnnotifiedUrlScans(?int $limit = null): ArrayAccess&Countable&IteratorAggregate&JsonSerializable {
+
+        return $this->db->getUnnotifiedUrlScans($limit);
+    }
+
+    public final function updateNotificationDate(int $id, string $notificationDate): bool {
+
+        return $this->db->updateNotificationDate($id, $notificationDate);
     }
 }

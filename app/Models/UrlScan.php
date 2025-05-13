@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $url
  * @property ?string $filename
  * @property-read UrlScanStatus $urlScanStatus
+ * @property-read User $user
  * @property-read \Carbon\Carbon $updated_at
  */
 final class UrlScan extends Model {
@@ -27,5 +28,10 @@ final class UrlScan extends Model {
     public final function urlScanStatus() {
 
         return $this->belongsTo(UrlScanStatus::class);
+    }
+
+    public final function user() {
+
+        return $this->belongsTo(User::class);
     }
 }
