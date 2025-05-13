@@ -29,9 +29,10 @@ For the API documentation, please run the project and visit the following URL: [
 
 ***
 
-## Application's Internals
+## [Application's Internals](internals/index.md)
 
 - [Database repositories](internals/db-repositories.md).
+- [Testing](internals/testing.md).
 
 ***
 

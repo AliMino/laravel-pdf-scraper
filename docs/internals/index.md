@@ -11,6 +11,7 @@
 - [Exceptions](./exceptions.md)
   - [Exceptions Handling](./exceptions.md#exceptions-handling)
   - [The APIException class](./exceptions.md#the-apiexception-class)
+- [Testing](./testing.md)
 
 <span align="center">
 
