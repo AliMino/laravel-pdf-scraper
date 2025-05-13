@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Enum\StatisticsKey;
 use App\Enum\UserRole;
 use App\Enum\UrlScanStatus;
 
@@ -31,7 +32,8 @@ final class UrlScansService {
         
         private IUrlScansRepository     $db,
         private UsersService            $users,
-        private UrlScanStatusesService  $urlScanStatuses
+        private UrlScanStatusesService  $urlScanStatuses,
+        private StatisticsService       $statistics
     ) {}
 
     public final function requestUrlScan(string $url, int $userId): UrlScan {
@@ -48,6 +50,8 @@ final class UrlScansService {
 
                     if ($latestUrlScan->updated_at->diffInMinutes() <= config('url-scans.url_scan_expiration_minutes')) {
 
+                        $this->statistics->increment(StatisticsKey::ReusedUrlsCount);
+
                         return $latestUrlScan;
                     }
             }
@@ -56,6 +60,8 @@ final class UrlScansService {
         $submittedUrlScanStatus = $this->urlScanStatuses->getById(UrlScanStatus::Submitted);
         
         $urlScan = $this->db->createUrlScan($url, $userId, $submittedUrlScanStatus->id);
+
+        $this->statistics->increment(StatisticsKey::SubmittedUrlsCount);
 
         ProcessUrlScan::dispatch($urlScan->id);
 
@@ -102,6 +108,7 @@ final class UrlScansService {
         return DB::transaction(function() use ($urlScan) {
 
             $this->db->updateUrlScanStatus($urlScan->id, UrlScanStatus::Processing->value);
+            $this->statistics->increment(StatisticsKey::ProcessingUrlsCount);
 
             $urlScan = $this->getById($urlScan->id, lock: true);
 
@@ -117,11 +124,15 @@ final class UrlScansService {
 
                 $this->db->updateUrlScanStatus($urlScan->id, UrlScanStatus::Processed->value);
 
-                //TODO: Notify the user about the URL scan completion
+                $this->statistics->decrement(StatisticsKey::ProcessingUrlsCount);
+                $this->statistics->increment(StatisticsKey::ProcessedUrlsCount);
 
             } catch (Throwable $_) {
 
                 $this->db->updateUrlScanStatus($urlScan->id, UrlScanStatus::Failed->value);
+
+                $this->statistics->decrement(StatisticsKey::ProcessingUrlsCount);
+                $this->statistics->increment(StatisticsKey::FailedUrlsCount);
             }
 
             return $this->getById($urlScan->id);

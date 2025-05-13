@@ -235,6 +235,40 @@
                     }
                 ]
             }
+        },
+        "api/v1/statistics": {
+            "get": {
+                "summary": "Retrieves statistics about users and URL scans",
+                "description": "Allows an authenticated admin to view statistics.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Statistics retrieved successfully"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "tags": [
+                    "Statistics"
+                ],
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true,
+                        "description": "Bearer token for authentication"
+                    }
+                ]
+            }
         }
     },
     "components": {
