@@ -1,0 +1,30 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+/**
+ * @property int $id
+ * @property string $url
+ * @property-read UrlScanStatus $urlScanStatus
+ * @property-read \Carbon\Carbon $updated_at
+ */
+final class UrlScan extends Model {
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+    protected $fillable = [
+        'url',
+        'user_id',
+        'url_scan_status_id'
+    ];
+
+    public final function urlScanStatus() {
+
+        return $this->belongsTo(UrlScanStatus::class);
+    }
+}

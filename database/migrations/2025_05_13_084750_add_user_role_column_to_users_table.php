@@ -19,7 +19,7 @@ class AddUserRoleColumnToUsersTable extends Migration
                   ->after('password');
 
             $table->foreign('user_role_id')
-                  ->references('id')->on('users');
+                  ->references('id')->on('user_roles');
         });
     }
 

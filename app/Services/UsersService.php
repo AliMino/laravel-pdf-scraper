@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Exceptions\API\UnauthorizedAccessException;
 use App\Models\User;
 use App\Enum\UserRole;
 use App\Repositories\User\IUsersRepository;
@@ -41,6 +42,24 @@ final class UsersService {
     /**
      * @throws EntityNotFoundException If the specified user not found and the $throwIfNotFound parameter is set to true.
      */
+    public final function getUserById(int $id, bool $throwIfNotFound = true): ?User {
+
+        if (!is_null($user = $this->db->getById($id))) {
+
+            return $user;
+        }
+
+        if ($throwIfNotFound) {
+
+            throw new EntityNotFoundException('User');
+        }
+        
+        return null;
+    }
+
+    /**
+     * @throws EntityNotFoundException If the specified user not found and the $throwIfNotFound parameter is set to true.
+     */
     public final function getUserByEmail(string $email, bool $throwIfNotFound = true): ?User {
 
         if (!is_null($user = $this->db->getUserByEmail($email))) {
@@ -67,5 +86,17 @@ final class UsersService {
         }
         
         throw new InvalidCredentialsException();
+    }
+
+    public final function assertUserOfType(int $userId, int|UserRole $userRole): void {
+
+        $user = $this->getUserById($userId);
+
+        $userRole = is_int($userRole) ? UserRole::from($userRole) : $userRole;
+
+        if ($user->userRole->enumCase !== $userRole) {
+
+            throw new UnauthorizedAccessException();
+        }
     }
 }

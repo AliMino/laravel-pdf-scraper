@@ -87,6 +87,41 @@
                     "Registration & Authentication"
                 ]
             }
+        },
+        "api/v1//urls": {
+            "post": {
+                "summary": "Request a new URL scan",
+                "description": "Allows an authenticated user to scan a new URL.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UrlScanRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "URL created successfully"
+                    },
+                    "400": {
+                        "description": "Invalid input"
+                    }
+                },
+                "tags": [
+                    "URL Scans"
+                ],
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true,
+                        "description": "Bearer token for authentication"
+                    }
+                ]
+            }
         }
     },
     "components": {
@@ -122,6 +157,16 @@
                     }
                 },
                 "required": ["email", "password"]
+            },
+            "UrlScanRequest": {
+                "type": "object",
+                "properties": {
+                    "url": {
+                        "type": "string",
+                        "format": "url"
+                    }
+                },
+                "required": ["url"]
             }
         }
     }

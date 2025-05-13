@@ -13,6 +13,7 @@ trait MapToAPIException {
 
     public final function render($request, Throwable $exception) {
 
+        dump(get_class($exception) . ': ' . $exception->getMessage());
         if ($exception instanceof APIException) {
 
             return $exception->toJsonResponse();
