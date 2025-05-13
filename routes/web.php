@@ -19,3 +19,5 @@ Route::group([
     'controller'    => AuthenticationController::class,
 
 ], __DIR__ . '/web/auth.php');
+
+Route::get('statistics', StatisticsController::class)->name('statistics-view');

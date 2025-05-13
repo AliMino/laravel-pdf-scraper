@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 
+use App\Enum\UserRole;
 use App\Services\UsersService;
 
 use Auth;
@@ -73,6 +74,11 @@ final class AuthenticationController extends Controller {
         }
 
         if (Auth::attempt($request->only('email', 'password'))) {
+
+            if (auth()->user()->userRole->enumCase == UserRole::Admin) {
+
+                return redirect(route('statistics-view'));
+            }
 
             return redirect(route('home'));
         }
