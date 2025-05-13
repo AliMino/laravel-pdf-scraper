@@ -91,11 +91,13 @@
                                 
                                 <!-- Retry -->
                                 @if ($urlScan->urlScanStatus->enumCase == App\Enum\UrlScanStatus::Failed)
-                                    <a>
-                                        <button class="btn">
-                                            <i class="uil uil-redo"></i> Retry
-                                        </button>
-                                    </a>
+                                <form class="search-form" action="{{ route('scan-url:web') }}" method="POST">
+                                    @csrf
+                                    <input type="hidden" name="url" value="{{ $urlScan->url }}" />
+                                    <button class="btn" type="submit">
+                                        <i class="uil uil-redo"></i> Retry
+                                    </button>
+                                </form>
                                 @endif
 
                             </td>
