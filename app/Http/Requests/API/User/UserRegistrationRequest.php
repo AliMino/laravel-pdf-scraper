@@ -1,17 +1,17 @@
 <?php
 
-namespace App\Http\Requests\User;
+namespace App\Http\Requests\API\User;
 
 use Illuminate\Foundation\Http\FormRequest;
 
 final class UserRegistrationRequest extends FormRequest {
 
-    public function authorize(): bool {
+    public final function authorize(): bool {
 
         return true;
     }
 
-    public function rules(): array {
+    public final function rules(): array {
 
         return [
 

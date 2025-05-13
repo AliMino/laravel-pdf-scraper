@@ -14,6 +14,31 @@
 					"request": {
 						"method": "POST",
 						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "username",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "user@mail.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "12345678",
+									"type": "text"
+								},
+								{
+									"key": "password_confirmation",
+									"value": "12345678",
+									"type": "text"
+								}
+							]
+						},
 						"url": {
 							"raw": "{{apiV1}}/auth/signup",
 							"host": [
@@ -42,7 +67,7 @@
 									"    const response = pm.response.json();",
 									"",
 									"    pm.expect(response).to.have.property(\"status\", true);",
-									"    pm.expect(response.data).to.be.a(\"string\"); // Ensure the token is a string",
+									"    pm.expect(response.data).to.be.a(\"string\");",
 									"",
 									"    pm.collectionVariables.set(\"authToken\", response.data);",
 									"    console.log(\"Token saved to collection variables:\", response.data);",
@@ -62,7 +87,7 @@
 							"formdata": [
 								{
 									"key": "email",
-									"value": "user1@mail.com",
+									"value": "user1.4@mail.com",
 									"type": "text"
 								},
 								{

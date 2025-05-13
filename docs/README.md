@@ -35,6 +35,7 @@ For postman collection, please import the file [docs/postman_collection.json](po
 ## [Application's Internals](internals/index.md)
 
 - [Database repositories](internals/db-repositories.md).
+- [Exceptions](internals/exceptions.md)
 - [Testing](internals/testing.md).
 
 ***

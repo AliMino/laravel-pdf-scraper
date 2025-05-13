@@ -8,6 +8,7 @@
 
 </span>
 
+- [Database repositories](./db-repositories.md).
 - [Exceptions](./exceptions.md)
   - [Exceptions Handling](./exceptions.md#exceptions-handling)
   - [The APIException class](./exceptions.md#the-apiexception-class)

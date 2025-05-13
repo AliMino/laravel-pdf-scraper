@@ -4,43 +4,88 @@ namespace App\Http\Controllers;
 
 
 use App\Services\UsersService;
-use App\Http\Requests\User\UserRegistrationRequest;
-use App\Http\Requests\User\UserAuthenticationRequest;
 
-use Illuminate\Http\JsonResponse;
-use Symfony\Component\HttpFoundation\Response;
+use Auth;
+use Validator;
+use Illuminate\Http\Request;
 
 
 final class AuthenticationController extends Controller {
 
-    public final function __construct(private UsersService $users) {}
+    public final function showRegistrationForm() {
 
-    /**
-     * @throws \App\Exceptions\API\EntityAlreadyExistsException If the specified email already in se by other user.
-     */
-    public final function signup(UserRegistrationRequest $request): JsonResponse {
+        if (!is_null(auth()->user())) {
 
-        $user = $this->users->signup(
+            return redirect(route('home'));
+        }
+
+        return view('auth.registration');
+    }
+
+    public final function submitRegistrationForm(Request $request, UsersService $users) {
+
+        $validationErrors = Validator::make($request->all(), [
+            'name'                  => 'required|string|max:255',
+            'email'                 => 'required|string|email|max:255|unique:users',
+            'password'              => 'required|string|min:8|confirmed',
+            'password_confirmation' => 'required|string|min:8',
+        ])->errors();
+
+        if ($validationErrors->isNotEmpty()) {
+
+            return redirect(route('user-registration-form'))
+                ->withInput($request->input())
+                ->withErrors($validationErrors);
+        }
+        
+        $users->signup(
             
             $request->input('name'),
             $request->input('email'),
             $request->input('password')
         );
-        
-        return response()->json([ 'status' => true, 'data' => $user ], Response::HTTP_CREATED);
+
+        return redirect(route('home'));
     }
 
-    /**
-     * @throws \App\Exceptions\API\InvalidCredentialsException If the specified credentials are invalid.
-     */
-    public final function login(UserAuthenticationRequest $request): JsonResponse {
+    public final function showLoginForm() {
 
-        $token = $this->users->generateAccessToken(
-            
-            $request->input('email'),
-            $request->input('password')
-        );
-        
-        return response()->json([ 'status' => true, 'data' => $token ]);
+        if (!is_null(auth()->user())) {
+
+            return redirect(route('home'));
+        }
+
+        return view('auth.login');
+    }
+
+    public final function submitLoginForm(Request $request) {
+
+        $validationErrors = Validator::make($request->all(), [
+            'email'    => 'required|string|email|max:255',
+            'password' => 'required|string',
+        ])->errors();
+
+        if ($validationErrors->isNotEmpty()) {
+
+            return redirect(route('user-login-form'))
+                ->withInput($request->input())
+                ->withErrors($validationErrors);
+        }
+
+        if (Auth::attempt($request->only('email', 'password'))) {
+
+            return redirect(route('home'));
+        }
+
+        return redirect(route('user-login-form'))
+            ->withErrors([ 'invalidCredentials' => 'Invalid credentials provided.' ])
+            ->withInput([ 'email' => $request->input('email') ]);
+    }
+
+    public final function logout() {
+
+        Auth::logout();
+
+        return redirect(route('user-login-form'));
     }
 }
