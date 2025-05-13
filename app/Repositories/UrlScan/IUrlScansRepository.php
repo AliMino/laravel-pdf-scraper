@@ -13,4 +13,6 @@ interface IUrlScansRepository {
     public function getById(int $id, bool $lock = false): ?UrlScan;
     
     public function updateUrlScanStatus(int $id, int $urlScanStatusId): bool;
+    
+    public function setUrlScanFilename(int $id, string $filename): bool;
 }

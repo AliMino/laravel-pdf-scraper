@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * @property int $id
  * @property string $url
+ * @property ?string $filename
  * @property-read UrlScanStatus $urlScanStatus
  * @property-read \Carbon\Carbon $updated_at
  */

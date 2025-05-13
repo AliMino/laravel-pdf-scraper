@@ -2,16 +2,22 @@
 
 namespace App\Services;
 
-use App\Enum\UrlScanStatus;
 use App\Enum\UserRole;
-use App\Exceptions\API\EntityNotFoundException;
-use App\Exceptions\API\InvalidUrlScanStatusException;
-use App\Exceptions\API\UrlScanInProgressException;
-use App\Jobs\ProcessUrlScan;
+use App\Enum\UrlScanStatus;
+
 use App\Models\UrlScan;
+use App\Jobs\ProcessUrlScan;
 use App\Repositories\UrlScan\IUrlScansRepository;
+
+use App\Exceptions\API\EntityNotFoundException;
+use App\Exceptions\API\UrlScanInProgressException;
+use App\Exceptions\API\InvalidUrlScanStatusException;
+
+
 use DB;
-use Illuminate\Support\Collection;
+use Ramsey\Uuid\Uuid;
+use Spatie\Browsershot\Browsershot;
+
 use Throwable;
 
 final class UrlScansService {
@@ -70,7 +76,7 @@ final class UrlScansService {
 
         if ($throwIfNotFound) {
             
-            throw new EntityNotFoundException('UrlScan not');
+            throw new EntityNotFoundException('UrlScan');
         }
 
         return null;
@@ -91,9 +97,17 @@ final class UrlScansService {
 
             try {
 
-                //TODO: Process the URL scan
+                $browserShot = Browsershot::url($urlScan->url)->noSandbox();
+                $storageDir = storage_path(config('url-scans.storageDir'));
+                $filename = UUid::uuid4() . '.pdf';
+
+                $browserShot->save($storageDir . DIRECTORY_SEPARATOR . $filename);
+
+                $this->db->setUrlScanFilename($urlScan->id, $filename);
 
                 $this->db->updateUrlScanStatus($urlScan->id, UrlScanStatus::Processed->value);
+
+                //TODO: Notify the user about the URL scan completion
 
             } catch (Throwable $_) {
 

@@ -55,4 +55,10 @@ final class EloquentUrlScansRepository implements IUrlScansRepository {
         return 0 < UrlScan::where('id', $id)
                           ->update(['url_scan_status_id' => $urlScanStatusId]);
     }
+
+    public final function setUrlScanFilename(int $id, string $filename): bool {
+
+        return 0 < UrlScan::where('id', $id)
+                          ->update(['filename' => $filename]);
+    }
 }

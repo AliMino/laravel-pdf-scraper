@@ -23,6 +23,8 @@ vendor/bin/sail php artisan db:seed
 
 vendor/bin/sail php artisan jwt:secret
 vendor/bin/sail artisan vendor:publish --provider="Tymon\JWTAuth\Providers\LaravelServiceProvider"
+
+vendor/bin/sail artisan queue:listen
 ```
 
 ***
