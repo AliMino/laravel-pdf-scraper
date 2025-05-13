@@ -2,28 +2,24 @@
 
 namespace App\Http\Controllers;
 
+use App\Enum\UserRole;
+use App\Services\UsersService;
+use App\Services\StatisticsService;
+
 final class StatisticsController extends Controller {
 
     public final function __construct() {}
 
-    public final function __invoke() {
+    public final function __invoke(StatisticsService $statisticsService, UsersService $usersService) {
 
         if (is_null(auth()->user())) {
 
             return redirect(route('user-login-form'));
         }
 
-        // DUMMY DATA
-        $statistics = [
+        $usersService->assertUserOfType(auth()->user()->id, UserRole::Admin);
 
-            'statstics_start_date'  => now(),
-            'users_count'           => rand(0, 100),
-            'submitted_urls_count'  => rand(0, 100),
-            'processing_urls_count' => rand(0, 100),
-            'processed_urls_count'  => rand(0, 100),
-            'failed_urls_count'     => rand(0, 100),
-            'reused_urls_count'     => rand(0, 100),
-        ];
+        $statistics = $statisticsService->all();
 
         return view('statistics', [ 'statistics' => $statistics ]);
     }
