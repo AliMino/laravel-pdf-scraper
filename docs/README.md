@@ -23,6 +23,12 @@ vendor/bin/sail php artisan migrate
 
 ***
 
+## API Documentation
+
+For the API documentation, please run the project and visit the following URL: [http://localhost/docs](http://localhost/docs)
+
+***
+
 ## Application's Internals
 
 - [Database repositories](internals/db-repositories.md).

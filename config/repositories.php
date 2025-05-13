@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Repositories;
+
 /**
  * Configuration for Database Repositories.
  */
@@ -25,6 +27,8 @@ return [
         'eloquent' => [
 
             // Define repositories bindings as: interface => concrete
+            
+            User\IUsersRepository::class => User\EloquentUsersRepository::class,
         ]
     ]
 ];
