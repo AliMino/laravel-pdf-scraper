@@ -23,9 +23,10 @@ vendor/bin/sail php artisan migrate
 
 ***
 
-## Application's Internals
+## [Application's Internals](internals/index.md)
 
 - [Database repositories](internals/db-repositories.md).
+- [Testing](internals/testing.md).
 
 ***
 
