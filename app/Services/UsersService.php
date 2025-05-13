@@ -7,8 +7,10 @@ use App\Repositories\User\IUsersRepository;
 
 use App\Exceptions\API\EntityNotFoundException;
 use App\Exceptions\API\EntityAlreadyExistsException;
+use App\Exceptions\API\InvalidCredentialsException;
 
 use Hash;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 final class UsersService {
 
@@ -43,5 +45,18 @@ final class UsersService {
         }
         
         return null;
+    }
+
+    /**
+     * @throws InvalidCredentialsException If the specified credentials are invalid.
+     */
+    public final function generateAccessToken(string $email, string $plainPassword): string {
+
+        if ($token = JWTAuth::attempt([ 'email' => $email, 'password' => $plainPassword ])) {
+            
+            return $token;
+        }
+        
+        throw new InvalidCredentialsException();
     }
 }

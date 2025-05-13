@@ -11,4 +11,6 @@ enum ErrorCode: int {
     case EntityNotFound      = 2;
 
     case EntityAlreadyExists = 3;
+
+    case InvalidCredentials  = 4;
 }

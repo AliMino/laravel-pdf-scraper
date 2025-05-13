@@ -60,6 +60,33 @@
                     "Registration & Authentication"
                 ]
             }
+        },
+        "api/v1/auth/login": {
+            "post": {
+                "summary": "User login",
+                "description": "Allows an existing user to log in to the application.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/LoginRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "User logged in successfully"
+                    },
+                    "401": {
+                        "description": "Invalid credentials"
+                    }
+                },
+                "tags": [
+                    "Registration & Authentication"
+                ]
+            }
         }
     },
     "components": {
@@ -82,6 +109,19 @@
                     }
                 },
                 "required": ["name", "email", "password", "password_confirmation"]
+            },
+            "LoginRequest": {
+                "type": "object",
+                "properties": {
+                    "email": {
+                        "type": "string",
+                        "format": "email"
+                    },
+                    "password": {
+                        "type": "string"
+                    }
+                },
+                "required": ["email", "password"]
             }
         }
     }

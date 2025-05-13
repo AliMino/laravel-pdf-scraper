@@ -19,13 +19,16 @@ When running the project for the first time, you will need to run the following 
 composer update
 
 vendor/bin/sail php artisan migrate
+vendor/bin/sail php artisan jwt:secret
 ```
 
 ***
 
 ## API Documentation
 
-For the API documentation, please run the project and visit the following URL: [http://localhost/docs](http://localhost/docs)
+For the API documentation presented by [Swagger](https://swagger.io/), please run the project and visit the following URL: [http://localhost/docs](http://localhost/docs).
+
+For postman collection, please import the file [docs/postman_collection.json](postman_collection.json) into your postman application.
 
 ***
 

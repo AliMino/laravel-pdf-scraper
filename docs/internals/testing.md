@@ -16,6 +16,7 @@ Prepare the testing database by running the following command:
 
 ```shell
 vendor/bin/sail php artisan migrate --env=testing
+vendor/bin/sail php artisan jwt:secret --env=testing
 ```
 
 ### Running the Tests

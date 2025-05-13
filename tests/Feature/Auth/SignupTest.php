@@ -13,12 +13,8 @@ use Tests\TestCase;
 class SignupTest extends TestCase {
 
     use WithFaker;
+    use RefreshDatabase;
 
-    /**
-     * A basic feature test example.
-     *
-     * @return void
-     */
     public function test_user_can_register_with_unique_email() {
 
         $usersService = app(UsersService::class);
