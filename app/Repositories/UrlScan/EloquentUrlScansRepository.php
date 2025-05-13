@@ -4,6 +4,11 @@ namespace App\Repositories\UrlScan;
 
 use App\Models\UrlScan;
 
+use ArrayAccess;
+use Countable;
+use IteratorAggregate;
+use JsonSerializable;
+
 final class EloquentUrlScansRepository implements IUrlScansRepository {
 
     public final function getLatestUrlScan(?string $url = null, ?int $userId = null): ?UrlScan {
@@ -36,7 +41,7 @@ final class EloquentUrlScansRepository implements IUrlScansRepository {
         return $urlScan;
     }
 
-    public final function getById(int $id, bool $lock = false): ?UrlScan {
+    public final function getById(int $id, ?int $userId, bool $lock = false): ?UrlScan {
 
         $query = UrlScan::query();
 
@@ -46,6 +51,11 @@ final class EloquentUrlScansRepository implements IUrlScansRepository {
         }
 
         $query->where('id', $id);
+
+        if (!is_null($userId)) {
+
+            $query->where('user_id', $userId);
+        }
 
         return $query->first();
     }
@@ -60,5 +70,34 @@ final class EloquentUrlScansRepository implements IUrlScansRepository {
 
         return 0 < UrlScan::where('id', $id)
                           ->update(['filename' => $filename]);
+    }
+
+    public final function getUrlScans(
+
+        int     $userId,
+        ?array  $urls            = null,
+        ?string $fromDate        = null,
+        ?string $toDate          = null,
+        ?int    $recordsPerPage  = null
+    ): ArrayAccess&Countable&IteratorAggregate&JsonSerializable {
+
+        $query = UrlScan::where('user_id', $userId);
+
+        if (!is_null($urls)) {
+
+            $query->whereIn('url', $urls);
+        }
+
+        if (!is_null($fromDate)) {
+
+            $query->where('created_at', '>=', $fromDate);
+        }
+
+        if (!is_null($toDate)) {
+
+            $query->where('created_at', '<=', $toDate);
+        }
+
+        return is_null($recordsPerPage) ? $query->get() : $query->paginate($recordsPerPage);
     }
 }

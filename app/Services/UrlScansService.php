@@ -15,10 +15,15 @@ use App\Exceptions\API\InvalidUrlScanStatusException;
 
 
 use DB;
+use Carbon\Carbon;
 use Ramsey\Uuid\Uuid;
 use Spatie\Browsershot\Browsershot;
 
 use Throwable;
+use Countable;
+use ArrayAccess;
+use JsonSerializable;
+use IteratorAggregate;
 
 final class UrlScansService {
 
@@ -67,9 +72,14 @@ final class UrlScansService {
         return $this->db->getLatestUrlScan($url, $userId);
     }
 
-    public final function getById(int $id, bool $lock = false, bool $throwIfNotFound = true): ?UrlScan {
+    public final function getById(int $id, ?int $userId = null, bool $lock = false, bool $throwIfNotFound = true): ?UrlScan {
 
-        if (!is_null($urlScan = $this->db->getById($id, $lock))) {
+        if (!is_null($userId)) {
+
+            $this->users->assertUserOfType($userId, UserRole::User);
+        }
+
+        if (!is_null($urlScan = $this->db->getById($id, $userId, $lock))) {
 
             return $urlScan;
         }
@@ -116,5 +126,32 @@ final class UrlScansService {
 
             return $this->getById($urlScan->id);
         });
+    }
+
+    public final function getUrlScans(
+
+        int                $userId,
+        ?array             $urls            = null,
+        Carbon|string|null $fromDate        = null,
+        Carbon|string|null $toDate          = null,
+        ?int               $recordsPerPage  = null
+
+    ): ArrayAccess&Countable&IteratorAggregate&JsonSerializable {
+
+        $this->users->assertUserOfType($userId, UserRole::User);
+
+        $fromDate = is_null($fromDate) ? null : Carbon::parse($fromDate);
+        $toDate   = is_null($toDate)   ? null : Carbon::parse($toDate);
+
+        return $this->db->getUrlScans($userId, $urls, $fromDate, $toDate, $recordsPerPage);
+    }
+
+    public final function getUrlScanFilename(int $id, int $userId): string {
+
+        $urlScan = $this->getById($id, userId: $userId);
+
+        $storageDir = storage_path(config('url-scans.storageDir'));
+
+        return $storageDir . DIRECTORY_SEPARATOR . $urlScan->filename;
     }
 }
