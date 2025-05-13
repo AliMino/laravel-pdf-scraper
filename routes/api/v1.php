@@ -19,4 +19,6 @@ Route::middleware('auth:api')->group(function() {
         'controller'    => APIUrlScansController::class,
 
     ], __DIR__ . '/v1/url-scans.php');
+
+    Route::get('statistics', [ APIStatisticsController::class, 'getStatistics' ])->name('get-statistics');
 });

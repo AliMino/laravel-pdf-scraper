@@ -2,10 +2,11 @@
 
 namespace App\Services;
 
-use App\Exceptions\API\UnauthorizedAccessException;
 use App\Models\User;
 use App\Enum\UserRole;
+use App\Enum\StatisticsKey;
 use App\Repositories\User\IUsersRepository;
+use App\Exceptions\API\UnauthorizedAccessException;
 
 use App\Exceptions\API\EntityNotFoundException;
 use App\Exceptions\API\EntityAlreadyExistsException;
@@ -18,8 +19,9 @@ final class UsersService {
 
     public final function __construct(
         
-        private IUsersRepository $db,
-        private UserRolesService $userRoles
+        private IUsersRepository  $db,
+        private UserRolesService  $userRoles,
+        private StatisticsService $statistics
     ) {}
 
     /**
@@ -36,7 +38,11 @@ final class UsersService {
             throw new EntityAlreadyExistsException('User', 'email');
         }
 
-        return $this->db->createUser($name, $email, Hash::make($plainPassword), $userRoleId);
+        $user = $this->db->createUser($name, $email, Hash::make($plainPassword), $userRoleId);
+
+        $this->statistics->increment(StatisticsKey::UsersCount);
+
+        return $user;
     }
 
     /**
