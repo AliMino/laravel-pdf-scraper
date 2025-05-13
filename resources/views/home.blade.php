@@ -39,57 +39,71 @@
 </head>
 
 <body>
+    @error('url')
+        <div class="alert alert-danger" role="alert">
+            {{ $message }}
+        </div>
+    @enderror
     <div class="input-box">
-        <i class="uil uil-search"></i>
-        <input type="text" placeholder="Enter a webpage to scan..." />
-        <button class="button">Scan</button>
+        <form class="search-form" action="{{ route('scan-url:web') }}" method="POST">
+            @csrf
+            <i class="search-icon uil uil-search"></i>
+            <input class="search-input" type="text" name="url" placeholder="Enter a webpage to scan..." value="{{ old('url') }}"/>
+            <button class="search-button">Scan</button>
+        </form>
     </div>
     <div class="details-box">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th scope="col">URL</th>
-                    <th scope="col">Status</th>
-                    <th scope="col">Last Change</th>
-                    <th class="text-center" scope="col">Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($urlScans as $urlScan)
+        @if ($urlScans->isEmpty())
+            <div class="alert alert-info text-center w-100" role="alert">
+                No URL scans found.
+            </div>
+        @else
+            <table class="table">
+                <thead>
                     <tr>
-                        <!-- URL -->
-                         <th scope="row">{{ $urlScan->url }}</th>
-                        
-                        <!-- Status -->
-                         <td>{{ $urlScan->urlScanStatus->enumCase->name }}</td>
-                        
-                        <!-- Last Change -->
-                        <td>{{ Carbon\Carbon::parse($urlScan->updated_at)->diffForHumans() }}</td>
-                        
-                        <!-- Actions -->
-                        <td class="text-center">
-                            
-                            <!-- Download -->
-                            @if ($urlScan->urlScanStatus->enumCase == App\Enum\UrlScanStatus::Processed)
-                                <a target="_blank" href="{{ route('download-url-scan:web', [ 'urlScanId' => $urlScan->id]) }}">
-                                    <button class="btn"><i class="uil uil-download-alt"></i> Download</button>
-                                </a>
-                            @endif
-                            
-                            <!-- Retry -->
-                            @if ($urlScan->urlScanStatus->enumCase == App\Enum\UrlScanStatus::Failed)
-                                <a>
-                                    <button class="btn">
-                                        <i class="uil uil-redo"></i> Retry
-                                    </button>
-                                </a>
-                            @endif
-
-                        </td>
+                        <th scope="col">URL</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Last Change</th>
+                        <th class="text-center" scope="col">Actions</th>
                     </tr>
-                @endforeach
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    @foreach ($urlScans as $urlScan)
+                        <tr>
+                            <!-- URL -->
+                            <th scope="row">{{ $urlScan->url }}</th>
+                            
+                            <!-- Status -->
+                            <td>{{ $urlScan->urlScanStatus->enumCase->name }}</td>
+                            
+                            <!-- Last Change -->
+                            <td>{{ Carbon\Carbon::parse($urlScan->updated_at)->diffForHumans() }}</td>
+                            
+                            <!-- Actions -->
+                            <td class="text-center">
+                                
+                                <!-- Download -->
+                                @if ($urlScan->urlScanStatus->enumCase == App\Enum\UrlScanStatus::Processed)
+                                    <a target="_blank" href="{{ route('download-url-scan:web', [ 'urlScanId' => $urlScan->id]) }}">
+                                        <button class="btn"><i class="uil uil-download-alt"></i> Download</button>
+                                    </a>
+                                @endif
+                                
+                                <!-- Retry -->
+                                @if ($urlScan->urlScanStatus->enumCase == App\Enum\UrlScanStatus::Failed)
+                                    <a>
+                                        <button class="btn">
+                                            <i class="uil uil-redo"></i> Retry
+                                        </button>
+                                    </a>
+                                @endif
+
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        @endif
     </div>
 </body>
 
