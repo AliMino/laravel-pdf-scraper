@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\API;
 
 use App\Services\UrlScansService;
-use App\Http\Controllers\Controller;
 use App\Http\Requests\API\URL\URLScanRequest;
 use App\Http\Requests\API\URL\URLScanRetrievalRequest;
 use App\Http\Requests\API\URL\URLScansRetrievalRequest;
@@ -12,7 +11,7 @@ use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Response;
 
-final class UrlScansController extends Controller {
+final class UrlScansController extends APIController {
 
     public final function __construct(private UrlScansService $urlScans) {}
 
@@ -23,7 +22,7 @@ final class UrlScansController extends Controller {
             $request->user()->id
         );
 
-        return response()->json($urlScan, Response::HTTP_CREATED);
+        return $this->getSuccessResponse($urlScan, Response::HTTP_CREATED);
     }
 
     public final function getUrlScans(URLScansRetrievalRequest $request): JsonResponse {
@@ -36,14 +35,14 @@ final class UrlScansController extends Controller {
             config('url-scans.api.recordsPerPage')
         );
         
-        return response()->json([ 'status' => true, 'data' => $urlScans ]);
+        return $this->getSuccessResponse($urlScans);
     }
 
     public final function getUrlScan(URLScanRetrievalRequest $request, int $urlScanId): JsonResponse {
 
         $urlScan = $this->urlScans->getById($urlScanId, userId: $request->user()->id);
         
-        return response()->json([ 'status' => true, 'data' => $urlScan ]);
+        return $this->getSuccessResponse($urlScan);
     }
 
     public final function downloadUrlScan(URLScanRetrievalRequest $request, int $urlScanId): BinaryFileResponse {
