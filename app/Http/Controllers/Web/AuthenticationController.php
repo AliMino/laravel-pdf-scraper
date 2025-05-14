@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
-
+namespace App\Http\Controllers\Web;
 
 use App\Enum\UserRole;
 use App\Services\UsersService;
+use App\Http\Controllers\Controller;
 
 use Auth;
 use Validator;

@@ -1,13 +1,14 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Web;
 
 use App\Services\UrlScansService;
+use App\Http\Controllers\Controller;
 
+use Validator;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
-use Validator;
 
 final class UrlScansController extends Controller {
 

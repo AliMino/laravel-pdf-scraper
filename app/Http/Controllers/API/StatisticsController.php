@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
 
-use App\Http\Requests\API\Statistics\StatisticsRetrievalRequest;
 use App\Services\StatisticsService;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\API\Statistics\StatisticsRetrievalRequest;
 
-final class APIStatisticsController extends Controller {
+final class StatisticsController extends Controller {
 
     public final function __construct(private StatisticsService $statistics) {}
     

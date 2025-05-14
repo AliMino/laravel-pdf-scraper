@@ -1,15 +1,16 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
 
 use App\Services\UsersService;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\API\User\UserRegistrationRequest;
 use App\Http\Requests\API\User\UserAuthenticationRequest;
 
 use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
-final class APIAuthenticationController extends Controller {
+final class AuthenticationController extends Controller {
 
     public final function __construct(private UsersService $users) {}
 

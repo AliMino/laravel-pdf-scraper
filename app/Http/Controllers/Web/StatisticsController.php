@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Web;
 
 use App\Enum\UserRole;
 use App\Services\UsersService;
 use App\Services\StatisticsService;
+use App\Http\Controllers\Controller;
 
 final class StatisticsController extends Controller {
 

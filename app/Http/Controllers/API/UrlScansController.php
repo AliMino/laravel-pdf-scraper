@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
 
 use App\Services\UrlScansService;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\API\URL\URLScanRequest;
 use App\Http\Requests\API\URL\URLScanRetrievalRequest;
 use App\Http\Requests\API\URL\URLScansRetrievalRequest;
@@ -11,7 +12,7 @@ use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Response;
 
-final class APIUrlScansController extends Controller {
+final class UrlScansController extends Controller {
 
     public final function __construct(private UrlScansService $urlScans) {}
 

@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Web;
 
 use App\Services\UrlScansService;
+use App\Http\Controllers\Controller;
 
 final class HomeController extends Controller {
 

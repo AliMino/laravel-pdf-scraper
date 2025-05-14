@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
 
 use Illuminate\Support\Facades\Route;
 
@@ -11,11 +11,11 @@ use Illuminate\Support\Facades\Route;
  */
 
 
-Route::group([ 'prefix' => 'auth', 'controller' => APIAuthenticationController::class ], __DIR__ . '/v1/auth.php');
+Route::group([ 'prefix' => 'auth', 'controller' => AuthenticationController::class ], __DIR__ . '/v1/auth.php');
 
 Route::middleware('auth:api')->group(function() {
 
-    Route::group([ 'prefix' => 'url-scans', 'controller' => APIUrlScansController::class ], __DIR__ . '/v1/url-scans.php');
+    Route::group([ 'prefix' => 'url-scans', 'controller' => UrlScansController::class ], __DIR__ . '/v1/url-scans.php');
 
-    Route::get('statistics', [ APIStatisticsController::class, 'getStatistics' ])->name('get-statistics');
+    Route::get('statistics', [ StatisticsController::class, 'getStatistics' ])->name('get-statistics');
 });

@@ -2,4 +2,4 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::get('statistics', App\Http\Controllers\StatisticsController::class)->name('app-statistics');
+Route::get('statistics', App\Http\Controllers\Web\StatisticsController::class)->name('app-statistics');
