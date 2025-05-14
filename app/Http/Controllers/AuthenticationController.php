@@ -77,7 +77,7 @@ final class AuthenticationController extends Controller {
 
             if (auth()->user()->userRole->enumCase == UserRole::Admin) {
 
-                return redirect(route('statistics-view'));
+                return redirect(route('app-statistics'));
             }
 
             return redirect(route('home'));
