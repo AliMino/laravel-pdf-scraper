@@ -14,5 +14,11 @@ return [
     'api' => [
 
         'recordsPerPage' => 10
+    ],
+
+    'notificationEmail' => [
+
+        'from'    => 'support@app.com',
+        'subject' => 'URL Scan Completed'
     ]
 ];

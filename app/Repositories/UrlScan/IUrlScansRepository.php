@@ -29,4 +29,8 @@ interface IUrlScansRepository {
         ?string $toDate          = null,
         ?int    $recordsPerPage  = null
     ): ArrayAccess&Countable&IteratorAggregate&JsonSerializable;
+
+    public function getUnnotifiedUrlScans(?int $limit = null): ArrayAccess&Countable&IteratorAggregate&JsonSerializable;
+
+    public function updateNotificationDate(int $id, string $notificationDate): bool;
 }

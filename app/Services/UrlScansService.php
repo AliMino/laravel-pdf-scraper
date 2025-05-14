@@ -165,4 +165,17 @@ final class UrlScansService {
 
         return $storageDir . DIRECTORY_SEPARATOR . $urlScan->filename;
     }
+
+    /**
+     * @return array<UrlScan>
+     */
+    public final function getUnnotifiedUrlScans(?int $limit = null): ArrayAccess&Countable&IteratorAggregate&JsonSerializable {
+
+        return $this->db->getUnnotifiedUrlScans($limit);
+    }
+
+    public final function updateNotificationDate(int $id, string $notificationDate): bool {
+
+        return $this->db->updateNotificationDate($id, $notificationDate);
+    }
 }
