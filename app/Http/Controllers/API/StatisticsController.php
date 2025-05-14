@@ -3,10 +3,9 @@
 namespace App\Http\Controllers\API;
 
 use App\Services\StatisticsService;
-use App\Http\Controllers\Controller;
 use App\Http\Requests\API\Statistics\StatisticsRetrievalRequest;
 
-final class StatisticsController extends Controller {
+final class StatisticsController extends APIController {
 
     public final function __construct(private StatisticsService $statistics) {}
     
@@ -14,6 +13,6 @@ final class StatisticsController extends Controller {
 
         $statistics = $this->statistics->all();
 
-        return response()->json([ 'status' => true, 'data' => $statistics ]);
+        return $this->getSuccessResponse($statistics);
     }
 }

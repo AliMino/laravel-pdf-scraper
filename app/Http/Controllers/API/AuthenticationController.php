@@ -3,14 +3,13 @@
 namespace App\Http\Controllers\API;
 
 use App\Services\UsersService;
-use App\Http\Controllers\Controller;
 use App\Http\Requests\API\User\UserRegistrationRequest;
 use App\Http\Requests\API\User\UserAuthenticationRequest;
 
 use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
-final class AuthenticationController extends Controller {
+final class AuthenticationController extends APIController {
 
     public final function __construct(private UsersService $users) {}
 
@@ -22,8 +21,8 @@ final class AuthenticationController extends Controller {
             $request->input('email'),
             $request->input('password')
         );
-        
-        return response()->json($user, Response::HTTP_CREATED);
+
+        return $this->getSuccessResponse($user, Response::HTTP_CREATED);
     }
 
     public final function login(UserAuthenticationRequest $request): JsonResponse {
@@ -34,6 +33,6 @@ final class AuthenticationController extends Controller {
             $request->input('password')
         );
         
-        return response()->json([ 'status' => true, 'data' => $token ]);
+        return $this->getSuccessResponse($token);
     }
 }
