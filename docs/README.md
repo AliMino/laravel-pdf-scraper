@@ -22,10 +22,12 @@ vendor/bin/sail php artisan migrate
 vendor/bin/sail php artisan db:seed
 
 vendor/bin/sail php artisan jwt:secret
-vendor/bin/sail artisan vendor:publish --provider="Tymon\JWTAuth\Providers\LaravelServiceProvider"
-
-vendor/bin/sail artisan queue:listen
 ```
+
+In addition to running the artisan server, the custom [supervisord.conf](../docker/supervisord.conf) file also defines:
+
+- A *supervisor* process that runs the laravel's *queue*. This is necessary to process the jobs that are queued when a user requests to save a website as a PDF.
+- A *supervisor* process that runs the laravel's *scheduler*. This is necessary to run the scheduled tasks (i.e., email-sending cronjobs)
 
 ***
 
@@ -49,10 +51,6 @@ For postman collection, please import the file [docs/postman_collection.json](po
 
 - [A: List of the used libraries](appendix/libraries.md).
 - [B: List of additional environment variables](appendix/env.md)
-
-## See Also
-
-- [Application's internals](internals/index.md).
 
 <span align="center">
 

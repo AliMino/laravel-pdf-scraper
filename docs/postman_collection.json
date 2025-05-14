@@ -20,21 +20,25 @@
 								{
 									"key": "name",
 									"value": "username",
+									"description": "required | max:255",
 									"type": "text"
 								},
 								{
 									"key": "email",
-									"value": "user@mail.com",
+									"value": "user1@mail.com",
+									"description": "required | email | max:255",
 									"type": "text"
 								},
 								{
 									"key": "password",
 									"value": "12345678",
+									"description": "required | minimum: 8",
 									"type": "text"
 								},
 								{
 									"key": "password_confirmation",
 									"value": "12345678",
+									"description": "required | minimum: 8 | same as password",
 									"type": "text"
 								}
 							]
@@ -87,12 +91,14 @@
 							"formdata": [
 								{
 									"key": "email",
-									"value": "user1.4@mail.com",
+									"value": "user1@mail.com",
+									"description": "required | email | max:255",
 									"type": "text"
 								},
 								{
 									"key": "password",
 									"value": "12345678",
+									"description": "required",
 									"type": "text"
 								}
 							]
@@ -113,10 +119,168 @@
 			]
 		},
 		{
-			"name": "New Request",
+			"name": "URL Scans",
+			"item": [
+				{
+					"name": "Scan URL",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "url",
+									"value": "https://google.com",
+									"description": "required | URL",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{apiV1}}/url-scans",
+							"host": [
+								"{{apiV1}}"
+							],
+							"path": [
+								"url-scans"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get URL Scans",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{apiV1}}/url-scans",
+							"host": [
+								"{{apiV1}}"
+							],
+							"path": [
+								"url-scans"
+							],
+							"query": [
+								{
+									"key": "from_date",
+									"value": "2025-05-12",
+									"description": "date_format:Y-m-d",
+									"disabled": true
+								},
+								{
+									"key": "to_date",
+									"value": "2025-05-13",
+									"description": "date_format:Y-m-d",
+									"disabled": true
+								},
+								{
+									"key": "urls[]",
+									"value": "https://google.com",
+									"description": "URL",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get URL Scan",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{apiV1}}/url-scans/1",
+							"host": [
+								"{{apiV1}}"
+							],
+							"path": [
+								"url-scans",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Download URL Scanned File",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{apiV1}}/url-scans/1/download",
+							"host": [
+								"{{apiV1}}"
+							],
+							"path": [
+								"url-scans",
+								"1",
+								"download"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{authToken}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Get Statistics",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{authToken}}",
+							"type": "string"
+						}
+					]
+				},
 				"method": "GET",
-				"header": []
+				"header": [],
+				"url": {
+					"raw": "{{apiV1}}/statistics",
+					"host": [
+						"{{apiV1}}"
+					],
+					"path": [
+						"statistics"
+					]
+				}
 			},
 			"response": []
 		}
